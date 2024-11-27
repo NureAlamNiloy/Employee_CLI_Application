@@ -44,7 +44,6 @@ class EmployeeManager:
             for emp in self.employee_list:
                 data.write(f"{emp.getEmployeeId()}, {emp.name.strip()}, {emp.designation.strip()}, {emp.department.strip()}\n")
 
-
     def add_employee(self, name, designation, department):
         if name and designation and department:
             employeeId = str(len(self.employee_list) + 1)
