@@ -39,18 +39,21 @@ class EmployeeManager:
     # save employee in file from employee_list 
     def save_employee(self):
         #open file as a write mode
-        with open(self.employee_data, 'w') as file:
+        with open(self.employee_data, 'w') as data:
             # add all data from my employee list to the file
             for emp in self.employee_list:
-                file.write(f"{emp.getEmployeeId()}, {emp.name}, {emp.designation}, {emp.department}\n")
+                data.write(f"{emp.getEmployeeId()}, {emp.name.strip()}, {emp.designation.strip()}, {emp.department.strip()}\n")
 
 
     def add_employee(self, name, designation, department):
-        employeeId = str(len(self.employee_list) + 1)
-        new_employee = Employee(employeeId,name, designation, department)
-        self.employee_list.append(new_employee)
-        self.save_employee()
-        print("Employee added Successfully")
+        if name and designation and department:
+            employeeId = str(len(self.employee_list) + 1)
+            new_employee = Employee(employeeId,name, designation, department)
+            self.employee_list.append(new_employee)
+            self.save_employee()
+            print("Employee added Successfully")
+        else:
+            print("Provide all info correctly")
     
     def update_employee(self, employeeId, name, designation, department):
         for emp in self.employee_list:
@@ -63,9 +66,10 @@ class EmployeeManager:
                     emp.department = department
                 
                 self.save_employee()
-                return "Employee update successfully"
+                print("Employee update successfully")
+                return
         
-        return "Employee id not found"
+        print("Employee id not found")
     
     # Delete specific Employee 
     def delete_employee(self, employeeId):
@@ -81,10 +85,11 @@ class EmployeeManager:
         else:
             print("Employee list is empty")
             
-    def search_employee(self, name=None, designation=None):
-        search_list = [emp for emp in self.employee_list if ((name.lower() in emp.name.lower()) or (designation.lower() in emp.designation.lower()))]
+    def search_employee(self, name, designation):
+        search_list = [emp for emp in self.employee_list if ((name.lower() in emp.name.lower() if name else True) and (designation.lower() in emp.designation.lower() if designation else True))]
         if search_list:
-            print(search_list)
+            for emp in search_list:
+                print(f"{emp.getEmployeeId()}, {emp.name}, {emp.designation}, {emp.department}")
         else:
             print("Not result matches")
 
@@ -111,14 +116,16 @@ elif output == '2':
     manager.update_employee(id, name, designation, department)
 
 elif output == "3":
-    id = int(input("Enter Employee Id: "))
+    id = input("Enter Employee Id: ")
     manager.delete_employee(id)  
 
 elif output == "4":
     manager.view_all_employee()
 
 elif output == "5":
-    manager.search_employee()
+    name = input("Enter Employee name: ")
+    designation = input("Enter Employee designation: ")
+    manager.search_employee(name , designation)
 
     
 
