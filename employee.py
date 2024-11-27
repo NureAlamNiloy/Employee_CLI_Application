@@ -1,7 +1,7 @@
 class Employee:
 
     def __init__(self,  employeeId, name, designation, department):
-        self.__employeeId = int(employeeId)
+        self.__employeeId = employeeId
         self.name = name
         self.designation = designation
         self.department = department
@@ -46,7 +46,7 @@ class EmployeeManager:
 
 
     def add_employee(self, name, designation, department):
-        employeeId = len(self.employee_list) + 1
+        employeeId = str(len(self.employee_list) + 1)
         new_employee = Employee(employeeId,name, designation, department)
         self.employee_list.append(new_employee)
         self.save_employee()
@@ -77,7 +77,7 @@ class EmployeeManager:
     def view_all_employee(self):
         if self.employee_list:
             for emp in self.employee_list:
-                print(f"{emp.getEmployeeId}, {emp.name}, {emp.designation}, {emp.department}")
+                print(f"{emp.getEmployeeId()}, {emp.name}, {emp.designation}, {emp.department}")
         else:
             print("Employee list is empty")
             
@@ -104,7 +104,7 @@ if output == '1':
     manager.add_employee(name,designation,department)
 
 elif output == '2':
-    id = int(input("Enter Employee Id: "))
+    id = input("Enter Employee Id: ")
     name = input("Enter Employee name: ")
     designation = input("Enter Employee designation: ")
     department = input("Enter Employee department: ")
@@ -112,7 +112,13 @@ elif output == '2':
 
 elif output == "3":
     id = int(input("Enter Employee Id: "))
-    manager.delete_employee(id)     
+    manager.delete_employee(id)  
+
+elif output == "4":
+    manager.view_all_employee()
+
+elif output == "5":
+    manager.search_employee()
 
     
 
